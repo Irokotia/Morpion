@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="fr.uga.iut2.lpmiaw.demoshifumi" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Morpion</name>
+    <description>
+        Un jeu de Shifumi en Cordova et JQuery Mobile
+    </description>
+    <author email="philippe.martin@iut2.univ-grenoble-alpes.fr" href="https://www-info.iut2.univ-grenoble-alpes.fr/">
+        Philippe Martin
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <allow-intent href="market:*" />
+        <splash src="res/iut2info.png" />
+        <icon src="res/iut2info.png" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <plugin name="cordova-plugin-browsersync" spec="^1.1.0" />
+    <preference name="SplashMaintainAspectRatio" value="false" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.7.2" />
+    <plugin name="cordova-sqlite-storage" spec="^3.4.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.2.0" />
+    <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
+    <plugin name="cordova-plugin-camera" spec="^4.1.0" />
+    <engine name="android" spec="^8.1.0" />
+    <engine name="browser" spec="^6.0.0" />
+</widget>

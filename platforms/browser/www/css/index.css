@@ -1,0 +1,13 @@
+.mybtn:disabled {
+    opacity: 1;
+}
+
+.myimg {
+    display: block;
+    margin: auto;
+}
+
+.btn-morpion{
+    height: 90px;
+    margin-bottom: 20px;
+}

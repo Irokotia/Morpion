@@ -1,0 +1,4 @@
+# Project exclude paths
+/node_modules/
+/plugins/cordova-plugin-browsersync/node_modules/
+/plugins/cordova-sqlite-storage/node_modules/
