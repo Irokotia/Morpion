@@ -146,6 +146,8 @@ controleur.vueJeu = {
         var lastPersonne = modele.Partie.JoueurCourant;
         // on interroge le modÃ¨le pour voir le rÃ©sultat du nouveau coup
         var resultat = modele.Partie.prototype.nouveauCoup(modele.Partie.JoueurCourant,coupJoueur);
+        console.log(resultat);
+        console.log(resultat.includes("Victoire"));
         // le score a changÃ© => on sauvegarde la partie en cours
         modele.dao.savePartie(controleur.session.partieEnCours);
         if(resultat.includes("Victoire")){

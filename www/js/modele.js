@@ -32,7 +32,7 @@ modele.Partie.prototype = {
     nouveauCoup: function (nomJoueur,coupJoueur) { // détermine le résulat d'un nouveau coup et sauvegarde le score
 
         var victoire = false;
-        var resultat = "";
+        var resultat = "test";
         if(modele.Partie.nomJoueur === nomJoueur){
             numCourant = 1;
         }else{
@@ -40,8 +40,6 @@ modele.Partie.prototype = {
         }
 
         // remplir tableaux
-        console.log(coupJoueur);
-        console.log(modele.Partie.morpion);
         if (coupJoueur <= 2) {
             console.log('passage 0-2');
             modele.Partie.morpion[0][coupJoueur] = numCourant;
@@ -52,42 +50,100 @@ modele.Partie.prototype = {
             console.log('passage 6-8');
             modele.Partie.morpion[2][coupJoueur % 3] = numCourant;
         }
-        console.log(modele.Partie.morpion[0]);
-        console.log(modele.Partie.morpion[1]);
-        console.log(modele.Partie.morpion[2]);
         // colonnes
         /*
         * 1 1 1
           1 1 1
           1 1 1
             i = 0
-                i[i] = i[i+3] = i[i+6]
-                comparaison position0 = position3 = position6 donc première colonne
+                0[i] === 1[i] === 2[i]
+                0[0] === 1[0] === 2[0]
+                soit la première colonne
             i = 1
-                i[i] = i[i+3] = i[i+6]
-                comparaison position1 = position4 = position7 donc seconde colonne
+                0[i] === 1[i] === 2[i]
+                0[1] === 1[1] === 2[1]
+                soit la seconde colonne
             i = 2
-                i[i] = i[i+3] = i[i+6]
-                comparaison position2 = position5 = position8 donc troisième colonne
+                0[i] = 1[i] = 2[i]
+                0[2] = 1[2] = 2[2]
+                soit la troisième colonne
         * */
-        // ne marche pas car on fait sur morpion[0] (ligne) et non sur la colonne
         for(var i = 0;i < 3;i++){
-            console.log(i);
-            console.log(modele.Partie.morpion[i][0]);
-            console.log(modele.Partie.morpion[i][i+3]);
-            console.log(modele.Partie.morpion[i][i+6]);
-            if(modele.Partie.morpion[i][i] === modele.Partie.morpion[i][i+3] === modele.Partie.morpion[i][i+6]){
+            // sachant que le coup est réalisé par le JoueurCourant on effectue la vérification uniquement sur le numCourant
+            if((modele.Partie.morpion[0][i] === numCourant) &&
+                (modele.Partie.morpion[1][i] === numCourant) &&
+                (modele.Partie.morpion[2][i] === numCourant)){
                 victoire = true;
             }
         }
+        // ligne
+        /*
+        * 1 1 1
+          1 1 1
+          1 1 1
+            i = 0
+                i[0] === i[1] === i[2]
+                0[0] === 0[1] === 0[2]
+                soit la première ligne
+            i = 1
+                i[0] === i[1] === i[2]
+                1[0] === 1[1] === 1[2]
+                soit la seconde ligne
+            i = 2
+                i[0] === i[1] === i[2]
+                2[0] === 2[1] === 2[2]
+                soit la troisième ligne
+        * */
+        for(var i = 0;i < 3;i++){
+            // sachant que le coup est réalisé par le JoueurCourant on effectue la vérification uniquement sur le numCourant
+            if((modele.Partie.morpion[i][0] === numCourant) &&
+                (modele.Partie.morpion[i][1] === numCourant) &&
+                (modele.Partie.morpion[i][2] === numCourant)){
+                victoire = true;
+            }
+        }
+        /*
+        * 1 1 1
+          1 1 1
+          1 1 1
+            i = 0
+                i[0] === i[1] === i[2]
+                0[0] === 1[1] === 2[2]
+                soit la première diago
+            i = 1
+                i[0] === i[1] === i[2]
+                0[2] === 1[1] === 2[0]
+                soit la seconde diago
+        * */
+        if ((modele.Partie.morpion[0][0] === numCourant) &&
+            (modele.Partie.morpion[1][1] === numCourant) &&
+            (modele.Partie.morpion[2][2] === numCourant)) {
+            victoire = true;
+        }
+        if ((modele.Partie.morpion[0][2] === numCourant) &&
+            (modele.Partie.morpion[1][1] === numCourant) &&
+            (modele.Partie.morpion[2][0] === numCourant)) {
+            victoire = true;
+        }
+
+        console.log(victoire);
         if(!victoire){
-            modele.Partie.JoueurCourant = ( modele.Partie.JoueurCourant === modele.Partie.nomJoueur)?
-                modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
+            if (modele.Partie.morpion[0].every((current) => current !== " ") &&
+                modele.Partie.morpion[1].every((current) => current !== " ") &&
+                modele.Partie.morpion[2].every((current) => current !== " ")) {
+                modele.Partie(modele.Partie.nomJoueur, 0, 0, 1);
+                modele.Partie(modele.Partie.nomJoueur2, 0, 0, 1);
+                resultat = "Egalité :/";
+            }else {
+                modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
+                    modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
+                resultat = "Partie non fini ! :(";
+            }
         }else{
             if(modele.Partie.JoueurCourant === modele.Partie.nomJoueur){
                 resultat = "Victoire de " + modele.Partie.nomJoueur;
             }else{
-
+                resultat = "Victoire de " + modele.Partie.nomJoueur2;
             }
         }
         return resultat;
