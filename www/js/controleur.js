@@ -37,8 +37,8 @@ controleur.vueAccueil = {
     init: function () {
         $("#nomJoueur").val("");
         $("#nomJoueur2").val("");
-        $("#cameraImageJoueur1").attr("src", "");
-        $("#cameraImageJoueur2").attr("src", "");
+        $("#cameraImageJoueur1").attr("src", "images/imageblanche.jpg");
+        $("#cameraImageJoueur2").attr("src","images/imageblanche.jpg");
     },
     
 
@@ -127,6 +127,7 @@ controleur.vueJeu = {
     init: function () {
         // on active et on montre tous les boutons du joueur
         $("button[id^=joueur]").prop('disabled', false).show();
+
 
 
 

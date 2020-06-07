@@ -128,8 +128,17 @@ modele.Partie.prototype = {
 
         console.log(victoire);
         if(!victoire){
-            modele.Partie.JoueurCourant = ( modele.Partie.JoueurCourant === modele.Partie.nomJoueur)?
-                modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
+            if (modele.Partie.morpion[0].every((current) => current !== " ") &&
+                modele.Partie.morpion[1].every((current) => current !== " ") &&
+                modele.Partie.morpion[2].every((current) => current !== " ")) {
+                modele.Partie(modele.Partie.nomJoueur, 0, 0, 1);
+                modele.Partie(modele.Partie.nomJoueur2, 0, 0, 1);
+                resultat = "Egalité :/";
+            }else {
+                modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
+                    modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
+                resultat = "Partie non fini ! :(";
+            }
         }else{
             if(modele.Partie.JoueurCourant === modele.Partie.nomJoueur){
                 resultat = "Victoire de " + modele.Partie.nomJoueur;
