@@ -37,8 +37,6 @@ controleur.vueAccueil = {
     init: function () {
         $("#nomJoueur").val("");
         $("#nomJoueur2").val("");
-        $("#cameraImageJoueur1").attr("src", "images/imageblanche.jpg");
-        $("#cameraImageJoueur2").attr("src","images/imageblanche.jpg");
     },
     
 
@@ -49,6 +47,14 @@ controleur.vueAccueil = {
 
         var photoJoueur = $("#cameraImageJoueur1").attr("src");
         var photoJoueur2 =  $("#cameraImageJoueur2").attr("src");
+
+        if(photoJoueur === "images/imageblanche.png"){
+            photoJoueur = "images/happy-cat.jpg";
+        }
+        if(photoJoueur2 === "images/imageblanche.png"){
+            photoJoueur2 = "images/sad-cat.jpg";
+        }
+
 
         if (nomJoueur1 === "" || nomJoueur2 === "") {
             alert("Entrez un nom de joueur svp");

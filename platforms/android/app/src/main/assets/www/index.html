@@ -80,13 +80,13 @@
                     <p>Joueur 1</p>
                     <input type="text" id="nomJoueur1" placeholder="Pseudo"/>
                     <img id="cameraImageJoueur1"
-                         src="" height="150" width="150"/>
+                         src="images/imageblanche.png" height="150" width="150"/>
                     <button onclick="controleur.cameraController.takePictureJoueur1()">Prendre une photo</button>
                     </div>
                     <div class="jouerIndex">
                     <p>Joueur 2</p>
                     <input type="text" id="nomJoueur2" placeholder="Pseudo"/>
-                    <img id="cameraImageJoueur2"  src="" height="150" width="150"/>
+                    <img id="cameraImageJoueur2"  src="images/imageblanche.png" height="150" width="150"/>
                     <button onclick="controleur.cameraController.takePictureJoueur2()">Prendre une photo</button>
                     </div>
                 </div>
@@ -101,55 +101,55 @@
                 <div class="ui-grid-b" >
                     <div class="ui-block-a">
                         <button data-role="button" data-inline="true"  class="btn-morpion" id="block0" onclick='controleur.vueJeu.jouer(0)'>
-                            <img alt="Photo" id="imageblock0" src=""
+                            <img alt="Photo" id="imageblock0" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-b">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block1"  onclick='controleur.vueJeu.jouer(1)'>
-                            <img alt="Photo" id="imageblock1" src=""
+                            <img alt="Photo" id="imageblock1" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-c">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block2" onclick='controleur.vueJeu.jouer(2)'>
-                            <img alt="Photo" id="imageblock2" src=""
+                            <img alt="Photo" id="imageblock2" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-a">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block3" onclick='controleur.vueJeu.jouer(3)'>
-                            <img alt="Photo" id="imageblock3" src=""
+                            <img alt="Photo" id="imageblock3" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-b">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block4" onclick='controleur.vueJeu.jouer(4)'>
-                            <img alt="Photo" id="imageblock4" src=""
+                            <img alt="Photo" id="imageblock4" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-c">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block5" onclick='controleur.vueJeu.jouer(5)'>
-                            <img alt="Photo" id="imageblock5" src=""
+                            <img alt="Photo" id="imageblock5" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-a">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block6" onclick='controleur.vueJeu.jouer(6)'>
-                            <img alt="Photo" id="imageblock6" src=""
+                            <img alt="Photo" id="imageblock6" src="images/imageblanche.png"
                                  style="display: none; width:95px; display:block; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-b">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block7" onclick='controleur.vueJeu.jouer(7)'>
-                            <img alt="Photo" id="imageblock7" src=""
+                            <img alt="Photo" id="imageblock7" src="images/imageblanche.png"
                                  style="display: block; width:95px; height: 95px;">
                         </button>
                     </div>
                     <div class="ui-block-c">
                         <button data-role="button" data-inline="true" class="btn-morpion" id="block8" onclick='controleur.vueJeu.jouer(8)'>
-                            <img alt="Photo" id="imageblock8" src=""
+                            <img alt="Photo" id="imageblock8" src="images/imageblanche.png"
                                  style="display: block; width:95px; height:95px;">
                         </button>
                     </div>
@@ -159,13 +159,29 @@
 
         <!--======== PAGE "vueScore" - affiche le score ========-->
         <div data-role="page" id="vueFin">
-            <p><center>Fin de Partie</p></h1>
+            <p><center>Fin de Partie</center></p></h1>
                 <p><center>Victoire de <span data-role="nomJoueur" style="color:blue"></span></h1></center></p>
                 <button data-role="button" data-inline="true" onclick='controleur.vueFin.retourAccueil()'>Rejouer</button>
                 <h1><center>Scores</center></h1>
-                <p style="color:green">V : <span id="nbVictoires"></span></p>
-                <p style="color:orange">N : <span id="nbNuls"></span></p>
-                <p style="color:red">D : <span id="nbDefaites"></span></p>
+                <table>
+                    <tr>
+                        <td colspan="3">
+                            Nom Joueurs
+                        </td>
+                        <td style="color: green">
+                            Victoires
+                        </td>
+                        <td style="color: orange">
+                            Nuls
+                        </td>
+                        <td style="color: red">
+                            Defaites
+                        </td>
+                    </tr>
+                    <tr>
+
+                    </tr>
+                </table>
         </div>
     </body>
 </html>
