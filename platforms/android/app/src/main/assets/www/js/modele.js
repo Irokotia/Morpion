@@ -2,20 +2,20 @@
 
 var modele = {};
 
-modele.Partie = function(nomJoueur){
+modele.Partie = function(nomJoueur) {
     // attributs
-    this.nomJoueur = nomJoueur;
-    this.nbVictoires = 0;
-    this.nbDefaites = 0;
-    this.nbNuls = 0;
-    
-    
-    var json_stringify_joueur = JSON.stringify({
-                                                 nbVictoiresJoueur: this.nbVictoiresJoueur,
-                                                 nbDefaitesJoueur: this.nbDefaitesJoueur,
-                                                 nbNulsJoueur: this.nbNulsJoueur
-                                                 });
-    window.localStorage.setItem(this.nomJoueur,json_stringify_joueur);
+
+    var joueur = window.localStorage.getItem(nomJoueur);
+
+    // si pas de joueur on en créer un sinon on le charge
+    if (joueur === null) {
+        var json_stringify_joueur = JSON.stringify({
+            nbVictoiresJoueur: 0,
+            nbDefaitesJoueur: 0,
+            nbNulsJoueur: 0
+        });
+        window.localStorage.setItem(nomJoueur, json_stringify_joueur);
+    }
 };
 
 
@@ -41,13 +41,10 @@ modele.Partie.prototype = {
 
         // remplir tableaux
         if (coupJoueur <= 2) {
-            console.log('passage 0-2');
             modele.Partie.morpion[0][coupJoueur] = numCourant;
         } else if (coupJoueur <= 5) {
-            console.log('passage 3-5');
             modele.Partie.morpion[1][coupJoueur % 3] = numCourant;
         } else {
-            console.log('passage 6-8');
             modele.Partie.morpion[2][coupJoueur % 3] = numCourant;
         }
         // colonnes
@@ -125,30 +122,51 @@ modele.Partie.prototype = {
             (modele.Partie.morpion[2][0] === numCourant)) {
             victoire = true;
         }
-
-        console.log(victoire);
         if(!victoire){
             if (modele.Partie.morpion[0].every((current) => current !== " ") &&
                 modele.Partie.morpion[1].every((current) => current !== " ") &&
                 modele.Partie.morpion[2].every((current) => current !== " ")) {
-                modele.Partie(modele.Partie.nomJoueur, 0, 0, 1);
-                modele.Partie(modele.Partie.nomJoueur2, 0, 0, 1);
-                resultat = "Egalité :/";
+                modele.Partie.setScore(modele.Partie.nomJoueur, 0, 0, 1);
+                modele.Partie.setScore(modele.Partie.nomJoueur2, 0, 0, 1);
+                resultat = "Egalité";
             }else {
                 modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
                     modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
-                resultat = "Partie non fini ! :(";
+                resultat = "Partie non fini !";
             }
         }else{
             if(modele.Partie.JoueurCourant === modele.Partie.nomJoueur){
                 resultat = "Victoire de " + modele.Partie.nomJoueur;
+                modele.Partie.setScore(modele.Partie.nomJoueur, 1, 0, 0);
+                modele.Partie.setScore(modele.Partie.nomJoueur2, 0, 1, 0);
             }else{
                 resultat = "Victoire de " + modele.Partie.nomJoueur2;
+                modele.Partie.setScore(modele.Partie.nomJoueur, 0, 1, 0);
+                modele.Partie.setScore(modele.Partie.nomJoueur2, 1, 0, 0);
             }
         }
         return resultat;
     }
 };
+
+modele.Partie.setScore = function (nomJoueur, victoire, defaite,nuls) {
+    var joueur = localStorage.getItem(nomJoueur);
+
+    var json_joueur = JSON.parse(joueur);
+    nbVictoires = parseInt(json_joueur.nbVictoiresJoueur) + victoire;
+    nbDefaites = parseInt(json_joueur.nbDefaitesJoueur) + defaite;
+    nbNuls =  parseInt(json_joueur.nbNulsJoueur) + nuls;
+
+    var json_stringify_joueur = JSON.stringify({
+        nbVictoiresJoueur: nbVictoires,
+        nbDefaitesJoueur: nbDefaites,
+        nbNulsJoueur: nbNuls
+    });
+    window.localStorage.setItem(nomJoueur,json_stringify_joueur);
+    var joueur = localStorage.getItem(nomJoueur);
+    console.log(" joueur après :" + joueur);
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Classe Image

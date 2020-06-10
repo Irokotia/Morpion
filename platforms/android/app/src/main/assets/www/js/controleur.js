@@ -134,8 +134,13 @@ controleur.vueJeu = {
         // on active et on montre tous les boutons du joueur
         $("button[id^=joueur]").prop('disabled', false).show();
 
-
-
+        for(i = 0;i <= 8;i++){
+            $("#imageblock" + i).attr('src', function () {
+                var src = "images/imageblanche.png";
+                $(this).attr("src", src);
+            });
+            $("#block"+i).prop('disabled', false);
+        }
 
         modele.Partie.morpion[0] = new Array(" "," "," ");
         modele.Partie.morpion[1] = new Array(" "," "," ");
@@ -153,11 +158,11 @@ controleur.vueJeu = {
         var lastPersonne = modele.Partie.JoueurCourant;
         // on interroge le modÃ¨le pour voir le rÃ©sultat du nouveau coup
         var resultat = modele.Partie.prototype.nouveauCoup(modele.Partie.JoueurCourant,coupJoueur);
-        console.log(resultat);
-        console.log(resultat.includes("Victoire"));
         // le score a changÃ© => on sauvegarde la partie en cours
         modele.dao.savePartie(controleur.session.partieEnCours);
-        if(resultat.includes("Victoire")){
+        console.log(resultat);
+        console.log(resultat.includes("Egalité"));
+        if(resultat.includes("Victoire") || resultat.includes("Egalité")){
             controleur.vueJeu.finPartie();
         }else{
             $('span[data-role="nomJoueurCourant"]').each(function () {
@@ -172,10 +177,8 @@ controleur.vueJeu = {
     nouveauCoup: function (coupJoueur,joueur) {
         // controleur.vueJeu.init();
         $("#imageblock" + coupJoueur).attr('src', function () {
-            //console.log("imageblock"+ coupJoueur);
             var src = ((modele.Partie.nomJoueur === joueur) ?
                 modele.Partie.photoJoueur : modele.Partie.photoJoueur2);
-            //console.log(src);
             $(this).attr("src", src);
         });
         $("#block"+coupJoueur).prop('disabled', true);
@@ -191,12 +194,28 @@ $(document).on("pagebeforeshow", "#vueJeu", function () {
     controleur.vueJeu.init();
 });
 
+
 ////////////////////////////////////////////////////////////////////////////////
 controleur.vueFin = {
     init: function () {
-        $("#nbVictoires").html(controleur.session.partieEnCours.nbVictoires);
-        $("#nbNuls").html(controleur.session.partieEnCours.nbNuls);
-        $("#nbDefaites").html(controleur.session.partieEnCours.nbDefaites);
+
+        var joueur1 = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur));
+        var joueur2 = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur2));
+
+        // Premier Joueur
+        $("#nompremierjoueur").html(modele.Partie.nomJoueur);
+        $("#victoiresjoueur1").html(joueur1.nbVictoiresJoueur);
+        $("#nulsjoueur1").html(joueur1.nbNulsJoueur);
+        $("#defaitesjoueur1").html(joueur1.nbDefaitesJoueur);
+        // Premier Joueur
+        $("#nomsecondjoueur").html(modele.Partie.nomJoueur2);
+        $("#victoiresjoueur2").html(joueur2.nbVictoiresJoueur);
+        $("#nulsjoueur2").html(joueur2.nbNulsJoueur);
+        $("#defaitesjoueur2").html(joueur2.nbDefaitesJoueur);
+
+        $('span[data-role="nomJoueurCourant"]').each(function () {
+            $(this).html(modele.Partie.JoueurCourant);
+        });
     },
 
     retourJeu: function () {
