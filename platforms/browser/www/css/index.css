@@ -1,5 +1,21 @@
-.mybtn:disabled {
-    opacity: 1;
+.ui-grid-b div {
+    width: 150px;
+    height: 150px;
+}
+.ui-block-a button{
+    width: 100px;
+    height: 100px;
+    padding: 0px;
+}
+.ui-block-b button{
+    width: 100px;
+    height: 100px;
+    padding: 0px;
+}
+.ui-block-c button{
+    width: 100px;
+    height: 100px;
+    padding: 0px;
 }
 
 .myimg {
@@ -10,4 +26,23 @@
 .btn-morpion{
     height: 90px;
     margin-bottom: 20px;
+}
+.indexContainer {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.jouerIndex {
+    width: 45%;
+    margin: 2px;
+    padding: 5px;
+    height: 80vh;
+}
+.finalJoueur{
+    width: 45%;
+    margin: 2px;
+    padding: 5px;
+    height: 220px;
 }

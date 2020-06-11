@@ -7,12 +7,19 @@ modele.Partie = function(nomJoueur) {
 
     var joueur = window.localStorage.getItem(nomJoueur);
 
-    // si pas de joueur on en créer un sinon on le charge
+    if(nomJoueur === modele.Partie.nomJoueur){
+        photoJoueur = modele.Partie.photoJoueur;
+    }else{
+        photoJoueur = modele.Partie.photoJoueur2;
+    }
+
+    // si pas de joueur on en créer un
     if (joueur === null) {
         var json_stringify_joueur = JSON.stringify({
             nbVictoiresJoueur: 0,
             nbDefaitesJoueur: 0,
-            nbNulsJoueur: 0
+            nbNulsJoueur: 0,
+            imageJoueur : photoJoueur
         });
         window.localStorage.setItem(nomJoueur, json_stringify_joueur);
     }
@@ -126,8 +133,8 @@ modele.Partie.prototype = {
             if (modele.Partie.morpion[0].every((current) => current !== " ") &&
                 modele.Partie.morpion[1].every((current) => current !== " ") &&
                 modele.Partie.morpion[2].every((current) => current !== " ")) {
-                modele.Partie.setScore(modele.Partie.nomJoueur, 0, 0, 1);
-                modele.Partie.setScore(modele.Partie.nomJoueur2, 0, 0, 1);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur, 0, 0, 1);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 0, 0, 1);
                 resultat = "Egalité";
             }else {
                 modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
@@ -137,36 +144,47 @@ modele.Partie.prototype = {
         }else{
             if(modele.Partie.JoueurCourant === modele.Partie.nomJoueur){
                 resultat = "Victoire de " + modele.Partie.nomJoueur;
-                modele.Partie.setScore(modele.Partie.nomJoueur, 1, 0, 0);
-                modele.Partie.setScore(modele.Partie.nomJoueur2, 0, 1, 0);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur, 1, 0, 0);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 0, 1, 0);
             }else{
                 resultat = "Victoire de " + modele.Partie.nomJoueur2;
-                modele.Partie.setScore(modele.Partie.nomJoueur, 0, 1, 0);
-                modele.Partie.setScore(modele.Partie.nomJoueur2, 1, 0, 0);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur, 0, 1, 0);
+                modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 1, 0, 0);
             }
         }
         return resultat;
     }
 };
+modele.scoreDAO = {
+    setScore : function (nomJoueur, victoire, defaite,nuls) {
 
-modele.Partie.setScore = function (nomJoueur, victoire, defaite,nuls) {
-    var joueur = localStorage.getItem(nomJoueur);
+        var json_joueur = modele.scoreDAO.getScore(nomJoueur);
+        nbVictoires = parseInt(json_joueur.nbVictoiresJoueur) + victoire;
+        nbDefaites = parseInt(json_joueur.nbDefaitesJoueur) + defaite;
+        nbNuls =  parseInt(json_joueur.nbNulsJoueur) + nuls;
 
-    var json_joueur = JSON.parse(joueur);
-    nbVictoires = parseInt(json_joueur.nbVictoiresJoueur) + victoire;
-    nbDefaites = parseInt(json_joueur.nbDefaitesJoueur) + defaite;
-    nbNuls =  parseInt(json_joueur.nbNulsJoueur) + nuls;
+        var json_stringify_joueur = JSON.stringify({
+            nbVictoiresJoueur: nbVictoires,
+            nbDefaitesJoueur: nbDefaites,
+            nbNulsJoueur: nbNuls,
+            imageJoueur: json_joueur.photoJoueur
+        });
+        window.localStorage.setItem(nomJoueur,json_stringify_joueur);
+        var joueur = localStorage.getItem(nomJoueur);
+        console.log(" joueur après :" + joueur);
+    },
+    getScore: function (nomJoueur) {
+        var joueur = localStorage.getItem(nomJoueur);
+        var json_joueur = JSON.parse(joueur);
 
-    var json_stringify_joueur = JSON.stringify({
-        nbVictoiresJoueur: nbVictoires,
-        nbDefaitesJoueur: nbDefaites,
-        nbNulsJoueur: nbNuls
-    });
-    window.localStorage.setItem(nomJoueur,json_stringify_joueur);
-    var joueur = localStorage.getItem(nomJoueur);
-    console.log(" joueur après :" + joueur);
-
+        return json_joueur;
+    }
 }
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Classe Image
@@ -181,7 +199,7 @@ modele.Image = function (nomJoueur, imageData) {
         return "data:image/jpeg;base64,"+ modele.photoJoueur;
     },
       
-    window.localStorage.setItem(this.id,this.getBase64());
+    window.localStorage.setItem("image"+modele.Partie.nomJoueur,modele.photoJoueur);
 };
 modele.Image2 = function (nomJoueur, imageData) {
     // Attributs
@@ -193,7 +211,7 @@ modele.Image2 = function (nomJoueur, imageData) {
         return "data:image/jpeg;base64,"+ modele.photoJoueur2;
     },
 
-    window.localStorage.setItem(this.id,modele.photoJoueur2);
+    window.localStorage.setItem("image"+modele.Partie.nomJoueur2,modele.photoJoueur2);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

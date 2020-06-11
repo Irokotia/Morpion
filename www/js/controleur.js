@@ -35,8 +35,22 @@ controleur.init = function () {
 
 controleur.vueAccueil = {
     init: function () {
-        $("#nomJoueur").val("");
-        $("#nomJoueur2").val("");
+        if(modele.Partie.nomJoueur != null){
+            $("#nomJoueur").val(modele.Partie.nomJoueur);
+        }else{
+            $("#nomJoueur").val("");
+        }
+        if(modele.Partie.nomJoueur2 != null){
+            $("#nomJoueur2").val(modele.Partie.nomJoueur2);
+        }else{
+            $("#nomJoueur2").val("");
+        }
+        if(modele.Partie.photoJoueur != null){
+            $("#cameraImageJoueur1").attr("src", modele.Partie.photoJoueur);
+        }
+        if(modele.Partie.photoJoueur2 != null){
+            $("#cameraImageJoueur2").attr("src", modele.Partie.photoJoueur2);
+        }
     },
     
 
@@ -48,6 +62,7 @@ controleur.vueAccueil = {
         var photoJoueur = $("#cameraImageJoueur1").attr("src");
         var photoJoueur2 =  $("#cameraImageJoueur2").attr("src");
 
+        // image prédéfinie pour les deux joueurs
         if(photoJoueur === "images/imageblanche.png"){
             photoJoueur = "images/happy-cat.jpg";
         }
@@ -198,9 +213,8 @@ $(document).on("pagebeforeshow", "#vueJeu", function () {
 ////////////////////////////////////////////////////////////////////////////////
 controleur.vueFin = {
     init: function () {
-
-        var joueur1 = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur));
-        var joueur2 = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur2));
+        var joueur1 = modele.scoreDAO.getScore(modele.Partie.nomJoueur);
+        var joueur2 = modele.scoreDAO.getScore(modele.Partie.nomJoueur2);
 
         // Premier Joueur
         $("#nompremierjoueur").html(modele.Partie.nomJoueur);
@@ -215,6 +229,18 @@ controleur.vueFin = {
 
         $('span[data-role="nomJoueurCourant"]').each(function () {
             $(this).html(modele.Partie.JoueurCourant);
+        });
+        $('p[data-role="nomJoueur1"]').each(function () {
+            $(this).html(modele.Partie.nomJoueur);
+        });
+        $('p[data-role="nomJoueur2"]').each(function () {
+            $(this).html(modele.Partie.nomJoueur2);
+        });
+        $('img[data-role="photoJoueur1"]').each(function () {
+            $(this).attr("src",modele.Partie.photoJoueur);
+        });
+        $('img[data-role="photoJoueur2"]').each(function () {
+            $(this).attr("src",modele.Partie.photoJoueur2);
         });
     },
 

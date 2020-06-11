@@ -174,11 +174,21 @@
     <center>Fin de Partie</center>
     </p></h1>
     <p>
-    <center>Victoire de <span data-role="nomJoueurCourant" style="color:blue"></span></h1></center>
+    <center>Victoire de <span data-role="nomJoueurCourant" style="color:#0000ff"></span></h1></center>
     </p>
     <center>
         <button data-role="button" data-inline="true" onclick='controleur.vueFin.retourAccueil()'>Rejouer</button>
     </center>
+    <div class="indexContainer" style="height: 220px">
+        <div class="finalJoueur">
+            <p data-role="nomJoueur1"></p>
+            <img data-role="photoJoueur1" src="" height="150" width="150"/>
+        </div>
+        <div class="finalJoueur">
+            <p data-role="nomJoueur2"></p>
+            <img data-role="photoJoueur2" src="" height="150" width="150"/>
+        </div>
+    </div>
     <h1>
         <center>Scores</center>
     </h1>

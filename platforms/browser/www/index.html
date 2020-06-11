@@ -18,125 +18,241 @@
     under the License.
 -->
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy"
-              content="default-src *; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport"
-              content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <!-- On rajoute le CSS de JQuery Mobile -->
-        <!-- <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">-->
-        <!-- Et le CSS de notre application -->
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Shifumi</title>
-    </head>
-    <body>
-        <!-- Code JS pour l'environnement (cordova et JQuery Mobile) -->
-        <script src="cordova.js"></script>
-        <script src="js/jquery-2.2.4.min.js"></script>
-        <script src="js/jquery.mobile-1.4.5.min.js"></script>
-        <!-- Code JS du Modèle -->
-        <script src="js/modele.js"></script>
-        <!-- Code JS du Contrôleur -->
-        <script src="js/controleur.js"></script>
-        <!-- Code JS d'initialisation de l'application cordova -->
-        <script src="js/index.js"></script>
+<head>
+    <!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src *; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- On rajoute le CSS de JQuery Mobile -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
+    <!-- Et le CSS de notre application -->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Shifumi</title>
+</head>
+<body>
+<!-- Code JS pour l'environnement (cordova et JQuery Mobile) -->
+<script src="cordova.js"></script>
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<!-- Code JS du Modèle -->
+<script src="js/modele.js"></script>
+<!-- Code JS du Contrôleur -->
+<script src="js/controleur.js"></script>
+<!-- Code JS d'initialisation de l'application cordova -->
+<script src="js/index.js"></script>
 
-        <!-- Fichier HTML = PARTIE "VUE" de l'application                                -->
-        <!--   composée d'une suite de 4 pages Jquery Mobile                             -->
-        <!-- Le comportement de chaque page est géré par le controleur (événements JS)   -->
-        <!--======== PAGE "vueChargement" - pour attendre que le périphérique soit prêt  ========-->
-        <div data-role="page" id="vueChargement">
-            <header id="shifumiHeader">
-                <div data-role="header" data-position="fixed" data-id="monHeader" data-theme="b">
-                    <h1>Morpion</h1>
-                </div>
-            </header>
-            <div data-role="main" class="ui-content">
-                <p>Chargement du jeu...</p>
-            </div>
-            <footer id="shifumiFooter">
-                <div data-role="footer" data-position="fixed" data-id="monFooter" data-theme="b">
-                    <h3>Un jeu MVC en Cordova+Jquery Mobile</h3>
-                </div>
-            </footer>
+<!-- Fichier HTML = PARTIE "VUE" de l'application                                -->
+<!--   composée d'une suite de 4 pages Jquery Mobile                             -->
+<!-- Le comportement de chaque page est géré par le controleur (événements JS)   -->
+<!--======== PAGE "vueChargement" - pour attendre que le périphérique soit prêt  ========-->
+<div data-role="page" id="vueChargement">
+    <header id="shifumiHeader">
+        <div data-role="header" data-position="fixed" data-id="monHeader" data-theme="b">
+            <h1>Morpion</h1>
         </div>
-
-        <!--======== PAGE "vueAccueil" - saisie nom joueur  ========-->
-        <div data-role="page" id="vueAccueil">
-            <div data-role="main" class="ui-grid-a">
-                <div data-role="" class="ui-block-a">
-                    <p>Joueur 1</p>
-                    <input type="text" id="nomJoueur1" placeholder="Pseudo"/>
-                    <img id="cameraImage" src="" alt="Photo" width="200px"/>
-                    <button onclick="controlleur.cameraController.takePicture()">Prendre une photo</button>
-                </div>
-                <div data-role="" class="ui-block-b">
-                    <p>Joueur 2</p>
-                    <input type="text" id="nomJoueur2" placeholder="Pseudo"/>
-                    <button onclick="">Photo</button>
-                    <img id="PhotoJoueur2" src="" class="myimg">
-                </div>
-
-                <button onclick="controleur.vueAccueil.nouvellePartie()">Jouer</button>
-            </div>
+    </header>
+    <div data-role="main" class="ui-content">
+        <p>Chargement du jeu...</p>
+    </div>
+    <footer id="shifumiFooter">
+        <div data-role="footer" data-position="fixed" data-id="monFooter" data-theme="b">
+            <h3>Un jeu MVC en Cordova+Jquery Mobile</h3>
         </div>
+    </footer>
+</div>
 
-        <!--======== PAGE "vueJeu" - déroulement d'une partie ========-->
-        <div data-role="page" id="vueJeu">
-            <div data-role="main" class="ui-content ui-mini">
-                <p><center>A <b><span data-role="nomJoueurCourant" style="color:blue"></span></b> de jouer...</center></p>
-                <div class="ui-grid-b">
-                    <div class="ui-block-a">
-                        <button data-role="button" data-inline="true"  class="btn-morpion" id="block1" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-b">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block2" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-c">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block3" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-a">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block4" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-b">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block5" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-c">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block6" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-a">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block7" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-b">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block8" onclick='controleur.vueJeu.jouer(this)'></button>
-                    </div>
-                    <div class="ui-block-c">
-                        <button data-role="button" data-inline="true" class="btn-morpion" id="block9"></button>
-                    </div>
-                </div>
+<!--======== PAGE "vueAccueil" - saisie nom joueur  ========-->
+<div data-role="page" id="vueAccueil">
+    <div data-role="main" class="ui-content">
+        <div class="indexContainer">
+            <div class="jouerIndex">
+                <p>Joueur 1</p>
+                <input type="text" id="nomJoueur1" placeholder="Pseudo"/>
+                <img id="cameraImageJoueur1"
+                     src="images/imageblanche.png" height="150" width="150"/>
+                <button onclick="controleur.cameraController.takePictureJoueur1()">Prendre une photo</button>
+            </div>
+            <div class="jouerIndex">
+                <p>Joueur 2</p>
+                <input type="text" id="nomJoueur2" placeholder="Pseudo"/>
+                <img id="cameraImageJoueur2" src="images/imageblanche.png" height="150" width="150"/>
+                <button onclick="controleur.cameraController.takePictureJoueur2()">Prendre une photo</button>
             </div>
         </div>
+        <button onclick="controleur.vueAccueil.nouvellePartie()">Jouer</button>
+    </div>
+</div>
 
-        <!--======== PAGE "vueScore" - affiche le score ========-->
-        <div data-role="page" id="vueFin">
-            <p><center>Fin de Partie</p></h1>
-                <p><center>Victoire de <span data-role="nomJoueur" style="color:blue"></span></h1></center></p>
-                <button data-role="button" data-inline="true" onclick='controleur.vueFin.retourAccueil()'>Rejouer</button>
-                <h1><center>Scores</center></h1>
-                <p style="color:green">V : <span id="nbVictoires"></span></p>
-                <p style="color:orange">N : <span id="nbNuls"></span></p>
-                <p style="color:red">D : <span id="nbDefaites"></span></p>
+<!--======== PAGE "vueJeu" - déroulement d'une partie ========-->
+<div data-role="page" id="vueJeu">
+    <div data-role="main" class="ui-content ui-mini">
+        <p>
+        <center>A <b><span data-role="nomJoueurCourant" style="color:blue"></span></b> de jouer...</center>
+        </p>
+        <div class="ui-grid-b">
+            <div class="ui-block-a">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block0"
+                        onclick='controleur.vueJeu.jouer(0)'>
+                    <img alt="Photo" id="imageblock0" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-b">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block1"
+                        onclick='controleur.vueJeu.jouer(1)'>
+                    <img alt="Photo" id="imageblock1" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-c">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block2"
+                        onclick='controleur.vueJeu.jouer(2)'>
+                    <img alt="Photo" id="imageblock2" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-a">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block3"
+                        onclick='controleur.vueJeu.jouer(3)'>
+                    <img alt="Photo" id="imageblock3" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-b">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block4"
+                        onclick='controleur.vueJeu.jouer(4)'>
+                    <img alt="Photo" id="imageblock4" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-c">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block5"
+                        onclick='controleur.vueJeu.jouer(5)'>
+                    <img alt="Photo" id="imageblock5" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-a">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block6"
+                        onclick='controleur.vueJeu.jouer(6)'>
+                    <img alt="Photo" id="imageblock6" src="images/imageblanche.png"
+                         style="display: none; width:95px; display:block; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-b">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block7"
+                        onclick='controleur.vueJeu.jouer(7)'>
+                    <img alt="Photo" id="imageblock7" src="images/imageblanche.png"
+                         style="display: block; width:95px; height: 95px;">
+                </button>
+            </div>
+            <div class="ui-block-c">
+                <button data-role="button" data-inline="true" class="btn-morpion" id="block8"
+                        onclick='controleur.vueJeu.jouer(8)'>
+                    <img alt="Photo" id="imageblock8" src="images/imageblanche.png"
+                         style="display: block; width:95px; height:95px;">
+                </button>
+            </div>
         </div>
-    </body>
+    </div>
+</div>
+
+<!--======== PAGE "vueScore" - affiche le score ========-->
+<div data-role="page" id="vueFin">
+    <p>
+    <center>Fin de Partie</center>
+    </p></h1>
+    <p>
+    <center>Victoire de <span data-role="nomJoueurCourant" style="color:#0000ff"></span></h1></center>
+    </p>
+    <center>
+        <button data-role="button" data-inline="true" onclick='controleur.vueFin.retourAccueil()'>Rejouer</button>
+    </center>
+    <div class="indexContainer" style="height: 220px">
+        <div class="finalJoueur">
+            <p data-role="nomJoueur1"></p>
+            <img data-role="photoJoueur1" src="" height="150" width="150"/>
+        </div>
+        <div class="finalJoueur">
+            <p data-role="nomJoueur2"></p>
+            <img data-role="photoJoueur2" src="" height="150" width="150"/>
+        </div>
+    </div>
+    <h1>
+        <center>Scores</center>
+    </h1>
+    <center>
+        <table class="table">
+            <tr>
+                <td colspan="3">
+                    Nom Joueurs
+                </td>
+                <td style="color: green">
+                    Victoires
+                </td>
+                <td style="color: orange">
+                    Nuls
+                </td>
+                <td style="color: red">
+                    Defaites
+                </td>
+            </tr>
+            <tr id="Joueur1">
+                <td colspan="3" id="nompremierjoueur"></td>
+                <td id="victoiresjoueur1" style="color: green">
+                </td>
+                <td id="nulsjoueur1" style="color: orange">
+                </td>
+                <td id="defaitesjoueur1" style="color: red">
+                </td>
+            </tr>
+            <tr id="Joueur2">
+                <td colspan="3" id="nomsecondjoueur"></td>
+                <td id="victoiresjoueur2" style="color: green">
+                </td>
+                <td id="nulsjoueur2" style="color: orange">
+                </td>
+                <td id="defaitesjoueur2" style="color: red">
+                </td>
+            </tr>
+        </table>
+    </center>
+
+    <h1>
+        <center>Meilleurs Scores</center>
+    </h1>
+    <center>
+        <table class="table">
+            <tr>
+                <td colspan="3">
+                    Nom Joueurs
+                </td>
+                <td style="color: green">
+                    Victoires
+                </td>
+                <td style="color: orange">
+                    Nuls
+                </td>
+                <td style="color: red">
+                    Defaites
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+    </center>
+</div>
+</body>
 </html>
