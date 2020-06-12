@@ -1,25 +1,26 @@
 /* global plugins, modele */
 
 ////////////////////////////////////////////////////////////////////////////////
-// On dÃ©finit un objet controleur qui va contenir les controleurs de nos pages
+// On définit un objet controleur qui va contenir les controleurs de nos pages
 ////////////////////////////////////////////////////////////////////////////////
 
-var controleur = {};
-
-////////////////////////////////////////////////////////////////////////////////
-// Session : variables qui reprÃ©sentent l'Ã©tat de l'application
-////////////////////////////////////////////////////////////////////////////////
-
-controleur.session = {
-    partieEnCours: null // La partie en train d'Ãªtre jouÃ©e
+var controleur = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// initialise : exÃ©cutÃ© au dÃ©marrage de l'application (voir fichier index.js)
+// Session : variables qui représentent l'état de l'application
+////////////////////////////////////////////////////////////////////////////////
+
+controleur.session = {
+    partieEnCours: null // La partie en train d'être jouée
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// initialise : exécuté au démarrage de l'application (voir fichier index.js)
 ////////////////////////////////////////////////////////////////////////////////
 
 controleur.init = function () {
-    // On duplique Header et Footer sur chaque page (sauf la premiÃ¨re !)
+    // On duplique Header et Footer sur chaque page (sauf la première !)
     $('div[data-role="page"]').each(function (i) {
         if (i > 0)
             $(this).html($('#shifumiHeader').html() + $(this).html() + $('#shifumiFooter').html());
@@ -29,8 +30,8 @@ controleur.init = function () {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// Controleurs de pages : 1 contrÃ´leur par page, qui porte le nom de la page
-//  et contient les callbacks des Ã©vÃ©nements associÃ©s Ã  cette page
+// Controleurs de pages : 1 contrôleur par page, qui porte le nom de la page
+//  et contient les callbacks des événements associés Ã  cette page
 ////////////////////////////////////////////////////////////////////////////////
 
 controleur.vueAccueil = {
@@ -55,7 +56,7 @@ controleur.vueAccueil = {
     
 
     nouvellePartie: function () {
-        // on rÃ©cupÃ¨re de l'information de la vue en cours
+        // on récupère de l'information de la vue en cours
         var nomJoueur1 = $("#nomJoueur1").val();
         var nomJoueur2 = $("#nomJoueur2").val();
 
@@ -96,20 +97,37 @@ controleur.vueAccueil = {
                 $(this).html(nomJoueur1);
             });
             
-            // Et on passe Ã  une autre vue
+            // Et on passe à  une autre vue
             $.mobile.changePage("#vueJeu");
             controleur.vueJeu.init();
         }
+    },
+    // recherche image pour le premier input
+    searchImageBD1(nomJoueur){
+        console.log(nomJoueur);
+        var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
+        if(joueur !== null){
+            $("#cameraImageJoueur1").attr("src", joueur.imageJoueur);
+        }
+    }
+    ,
+    // recherche image pour le deuxième input
+    searchImageBD2(nomJoueur){
+        console.log(nomJoueur);
+        var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
+        if(joueur !== null){
+            $("#cameraImageJoueur2").attr("src", joueur.imageJoueur);
+        }
     }
 };
-// On dÃ©finit ici la callback exÃ©cutÃ©e au chargement de la vue Accueil
+// On définit ici la callback exécutée au chargement de la vue Accueil
 $(document).on("pagebeforeshow", "#vueAccueil", function () {
     controleur.vueAccueil.init();
 });
 controleur.cameraController = {
     takePictureJoueur1: function () {
         // on appelle la méthode du modèle le permettant de prendre une photo
-        // en lui passant en paramÃƒÂ¨tre successCB et errorCB
+        // en lui passant en paramètre successCB et errorCB
         console.log('ça passe !');
         window.modele.takePicture(
             // successCB : on met à  jour dans la vue le champ cameraImage
@@ -149,6 +167,7 @@ controleur.vueJeu = {
         // on active et on montre tous les boutons du joueur
         $("button[id^=joueur]").prop('disabled', false).show();
 
+        // on initialise les images avec des images blanches
         for(i = 0;i <= 8;i++){
             $("#imageblock" + i).attr('src', function () {
                 var src = "images/imageblanche.png";
@@ -162,7 +181,6 @@ controleur.vueJeu = {
         modele.Partie.morpion[2] = new Array(" "," "," ");
 
         modele.Partie.JoueurCourant = modele.Partie.nomJoueur;
-        // controleur.session.partieEnCours = modele.dao.loadPartie(nomJoueur); // charge la partie du joueur depuis le localstorage
         // On "propage" le nom du joueur sur toutes les vues
         $('span[data-role="nomJoueurCourant"]').each(function () {
             $(this).html(modele.Partie.JoueurCourant);
@@ -171,26 +189,31 @@ controleur.vueJeu = {
 
     jouer: function (coupJoueur) {
         var lastPersonne = modele.Partie.JoueurCourant;
-        // on interroge le modÃ¨le pour voir le rÃ©sultat du nouveau coup
+
+        // on interroge le modèle pour voir le résultat du nouveau coup
         var resultat = modele.Partie.prototype.nouveauCoup(modele.Partie.JoueurCourant,coupJoueur);
-        // le score a changÃ© => on sauvegarde la partie en cours
-        modele.dao.savePartie(controleur.session.partieEnCours);
-        console.log(resultat);
-        console.log(resultat.includes("Egalité"));
+        // le score a changé => on sauvegarde la partie en cours
+        //modele.dao.savePartie(controleur.session.partieEnCours);
+
+        // on vérifie si la partie est fini
         if(resultat.includes("Victoire") || resultat.includes("Egalité")){
             controleur.vueJeu.finPartie();
-        }else{
+        }
+        // sinon on mets à jour les champs contenant le nom du joueurCourant
+        else{
             $('span[data-role="nomJoueurCourant"]').each(function () {
                 $(this).html(modele.Partie.JoueurCourant);
             });
         }
         if (lastPersonne !== modele.Partie.JoueurCourant) {
-            controleur.vueJeu.nouveauCoup(coupJoueur,modele.Partie.JoueurCourant);
+            controleur.vueJeu.nouveauCoup(coupJoueur,lastPersonne);
         }
     },
 
     nouveauCoup: function (coupJoueur,joueur) {
         // controleur.vueJeu.init();
+
+        // on mets à jour l'image du block en fonction du joueur qui joue
         $("#imageblock" + coupJoueur).attr('src', function () {
             var src = ((modele.Partie.nomJoueur === joueur) ?
                 modele.Partie.photoJoueur : modele.Partie.photoJoueur2);
@@ -204,7 +227,7 @@ controleur.vueJeu = {
     }
 };
 
-// On dÃ©finit ici la callback exÃ©cutÃ©e au chargement de la vue Jeu
+// On définit ici la callback exécutée au chargement de la vue Jeu
 $(document).on("pagebeforeshow", "#vueJeu", function () {
     controleur.vueJeu.init();
 });
@@ -221,14 +244,14 @@ controleur.vueFin = {
         $("#victoiresjoueur1").html(joueur1.nbVictoiresJoueur);
         $("#nulsjoueur1").html(joueur1.nbNulsJoueur);
         $("#defaitesjoueur1").html(joueur1.nbDefaitesJoueur);
-        // Premier Joueur
+        // Second Joueur
         $("#nomsecondjoueur").html(modele.Partie.nomJoueur2);
         $("#victoiresjoueur2").html(joueur2.nbVictoiresJoueur);
         $("#nulsjoueur2").html(joueur2.nbNulsJoueur);
         $("#defaitesjoueur2").html(joueur2.nbDefaitesJoueur);
 
-        $('span[data-role="nomJoueurCourant"]').each(function () {
-            $(this).html(modele.Partie.JoueurCourant);
+        $('span[data-role="resultatJeu"]').each(function () {
+            $(this).html(modele.Partie.resultat);
         });
         $('p[data-role="nomJoueur1"]').each(function () {
             $(this).html(modele.Partie.nomJoueur);
@@ -253,7 +276,7 @@ controleur.vueFin = {
     }
 };
 
-// On dÃ©finit ici la callback exÃ©cutÃ©e au chargement de la vue Fin
+// On définit ici la callback exécutée au chargement de la vue Fin
 $(document).on("pagebeforeshow", "#vueFin", function () {
     controleur.vueFin.init();
 });

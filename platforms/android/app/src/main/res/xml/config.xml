@@ -39,8 +39,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
-    <splash src="res/iut2info.png" />
-    <icon src="res/iut2info.png" />
+    <splash src="res/seeyou.jpg" />
+    <icon src="res/Morpion.jpg" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="SplashMaintainAspectRatio" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="false" />

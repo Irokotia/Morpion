@@ -19,8 +19,8 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <allow-intent href="market:*" />
-        <splash src="res/iut2info.png" />
-        <icon src="res/iut2info.png" />
+        <splash src="res/seeyou.jpg" />
+        <icon src="res/Morpion.jpg" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

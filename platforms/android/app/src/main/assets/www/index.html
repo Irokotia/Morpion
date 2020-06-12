@@ -78,14 +78,14 @@
         <div class="indexContainer">
             <div class="jouerIndex">
                 <p>Joueur 1</p>
-                <input type="text" id="nomJoueur1" placeholder="Pseudo"/>
+                <input type="text" id="nomJoueur1" placeholder="Pseudo" onchange="controleur.vueAccueil.searchImageBD1(this.value)"/>
                 <img id="cameraImageJoueur1"
                      src="images/imageblanche.png" height="150" width="150"/>
                 <button onclick="controleur.cameraController.takePictureJoueur1()">Prendre une photo</button>
             </div>
             <div class="jouerIndex">
                 <p>Joueur 2</p>
-                <input type="text" id="nomJoueur2" placeholder="Pseudo"/>
+                <input type="text" id="nomJoueur2" placeholder="Pseudo" onchange="controleur.vueAccueil.searchImageBD2(this.value)"/>
                 <img id="cameraImageJoueur2" src="images/imageblanche.png" height="150" width="150"/>
                 <button onclick="controleur.cameraController.takePictureJoueur2()">Prendre une photo</button>
             </div>
@@ -174,7 +174,7 @@
     <center>Fin de Partie</center>
     </p></h1>
     <p>
-    <center>Victoire de <span data-role="nomJoueurCourant" style="color:#0000ff"></span></h1></center>
+    <center></span><span data-role="resultatJeu" style=""></span></h1></center>
     </p>
     <center>
         <button data-role="button" data-inline="true" onclick='controleur.vueFin.retourAccueil()'>Rejouer</button>
@@ -228,31 +228,32 @@
             </tr>
         </table>
     </center>
-
-    <h1>
-        <center>Meilleurs Scores</center>
-    </h1>
-    <center>
-        <table class="table">
-            <tr>
-                <td colspan="3">
-                    Nom Joueurs
-                </td>
-                <td style="color: green">
-                    Victoires
-                </td>
-                <td style="color: orange">
-                    Nuls
-                </td>
-                <td style="color: red">
-                    Defaites
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-            </tr>
-        </table>
-    </center>
-</div>
-</body>
-</html>
+    <!--
+        <h1>
+            <center>Meilleurs Scores</center>
+        </h1>
+        <center>
+            <table class="table">
+                <tr>
+                    <td colspan="3">
+                        Nom Joueurs
+                    </td>
+                    <td style="color: green">
+                        Victoires
+                    </td>
+                    <td style="color: orange">
+                        Nuls
+                    </td>
+                    <td style="color: red">
+                        Defaites
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </center>
+        -->
+    </div>
+    </body>
+    </html>

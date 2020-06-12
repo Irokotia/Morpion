@@ -13,6 +13,10 @@ modele.Partie = function(nomJoueur) {
         photoJoueur = modele.Partie.photoJoueur2;
     }
 
+    console.log(photoJoueur);
+
+
+
     // si pas de joueur on en créer un
     if (joueur === null) {
         var json_stringify_joueur = JSON.stringify({
@@ -22,11 +26,13 @@ modele.Partie = function(nomJoueur) {
             imageJoueur : photoJoueur
         });
         window.localStorage.setItem(nomJoueur, json_stringify_joueur);
+        console.log( window.localStorage.getItem(nomJoueur));
     }
 };
 
 
 modele.Partie.morpion = new Array();
+modele.Partie.resultat = "";
 
 
 modele.Shuffle = function (o) {
@@ -39,7 +45,8 @@ modele.Partie.prototype = {
     nouveauCoup: function (nomJoueur,coupJoueur) { // détermine le résulat d'un nouveau coup et sauvegarde le score
 
         var victoire = false;
-        var resultat = "test";
+
+        // on attribue un numéro en fonction du joueur qui joue
         if(modele.Partie.nomJoueur === nomJoueur){
             numCourant = 1;
         }else{
@@ -62,7 +69,7 @@ modele.Partie.prototype = {
             i = 0
                 0[i] === 1[i] === 2[i]
                 0[0] === 1[0] === 2[0]
-                soit la première colonne
+                soit la premiêre colonne
             i = 1
                 0[i] === 1[i] === 2[i]
                 0[1] === 1[1] === 2[1]
@@ -70,7 +77,7 @@ modele.Partie.prototype = {
             i = 2
                 0[i] = 1[i] = 2[i]
                 0[2] = 1[2] = 2[2]
-                soit la troisième colonne
+                soit la troisiême colonne
         * */
         for(var i = 0;i < 3;i++){
             // sachant que le coup est réalisé par le JoueurCourant on effectue la vérification uniquement sur le numCourant
@@ -88,7 +95,7 @@ modele.Partie.prototype = {
             i = 0
                 i[0] === i[1] === i[2]
                 0[0] === 0[1] === 0[2]
-                soit la première ligne
+                soit la premiêre ligne
             i = 1
                 i[0] === i[1] === i[2]
                 1[0] === 1[1] === 1[2]
@@ -96,7 +103,7 @@ modele.Partie.prototype = {
             i = 2
                 i[0] === i[1] === i[2]
                 2[0] === 2[1] === 2[2]
-                soit la troisième ligne
+                soit la troisiême ligne
         * */
         for(var i = 0;i < 3;i++){
             // sachant que le coup est réalisé par le JoueurCourant on effectue la vérification uniquement sur le numCourant
@@ -113,7 +120,7 @@ modele.Partie.prototype = {
             i = 0
                 i[0] === i[1] === i[2]
                 0[0] === 1[1] === 2[2]
-                soit la première diago
+                soit la premiêre diago
             i = 1
                 i[0] === i[1] === i[2]
                 0[2] === 1[1] === 2[0]
@@ -129,35 +136,45 @@ modele.Partie.prototype = {
             (modele.Partie.morpion[2][0] === numCourant)) {
             victoire = true;
         }
+
+        // si il n'y a pas de victoire
         if(!victoire){
+            // on vérifie si il y a match nul
             if (modele.Partie.morpion[0].every((current) => current !== " ") &&
                 modele.Partie.morpion[1].every((current) => current !== " ") &&
                 modele.Partie.morpion[2].every((current) => current !== " ")) {
+                // on mets à jour les scores des deux joueurs
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur, 0, 0, 1);
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 0, 0, 1);
-                resultat = "Egalité";
-            }else {
-                modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
-                    modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
-                resultat = "Partie non fini !";
+                modele.Partie.resultat = "Egalité";
             }
-        }else{
+            // sinon on continue la partie est on change de joueurCourant
+            else {
+                modele.Partie.JoueurCourant = (modele.Partie.JoueurCourant === modele.Partie.nomJoueur) ?
+                modele.Partie.nomJoueur2 : modele.Partie.nomJoueur;
+                modele.Partie.resultat = "Partie non fini !";
+            }
+        }
+        // si il a victoire
+        else{
+            // on mets à jour les scores des deux joueurs en fonction de qui a gagné
             if(modele.Partie.JoueurCourant === modele.Partie.nomJoueur){
-                resultat = "Victoire de " + modele.Partie.nomJoueur;
+                modele.Partie.resultat = "Victoire de " + modele.Partie.nomJoueur;
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur, 1, 0, 0);
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 0, 1, 0);
             }else{
-                resultat = "Victoire de " + modele.Partie.nomJoueur2;
+                modele.Partie.resultat = "Victoire de " + modele.Partie.nomJoueur2;
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur, 0, 1, 0);
                 modele.scoreDAO.setScore(modele.Partie.nomJoueur2, 1, 0, 0);
             }
         }
-        return resultat;
+        return modele.Partie.resultat;
     }
 };
 modele.scoreDAO = {
     setScore : function (nomJoueur, victoire, defaite,nuls) {
 
+        // on récupêre sous format JSON les données du joueurs
         var json_joueur = modele.scoreDAO.getScore(nomJoueur);
         nbVictoires = parseInt(json_joueur.nbVictoiresJoueur) + victoire;
         nbDefaites = parseInt(json_joueur.nbDefaitesJoueur) + defaite;
@@ -167,11 +184,10 @@ modele.scoreDAO = {
             nbVictoiresJoueur: nbVictoires,
             nbDefaitesJoueur: nbDefaites,
             nbNulsJoueur: nbNuls,
-            imageJoueur: json_joueur.photoJoueur
+            imageJoueur: json_joueur.imageJoueur
         });
+        // on mets à joueur le joueur avec les nouvelles données
         window.localStorage.setItem(nomJoueur,json_stringify_joueur);
-        var joueur = localStorage.getItem(nomJoueur);
-        console.log(" joueur après :" + joueur);
     },
     getScore: function (nomJoueur) {
         var joueur = localStorage.getItem(nomJoueur);
@@ -194,7 +210,7 @@ modele.Image = function (nomJoueur, imageData) {
     this.id = 'image'+nomJoueur;
     modele.photoJoueur = imageData; // l'image Base64
     //
-    // MÃ©thode pour obtenir l'image au format Base64 (dÃ©compressÃ©) avec en-tÃªte MIME
+    // Méthode pour obtenir l'image au format Base64 (décompressé) avec en-tête MIME
     this.getBase64 = function() {
         return "data:image/jpeg;base64,"+ modele.photoJoueur;
     },
@@ -206,7 +222,7 @@ modele.Image2 = function (nomJoueur, imageData) {
     this.id = 'image'+nomJoueur;
     modele.photoJoueur2 = imageData; // l'image Base64
     //
-    // MÃ©thode pour obtenir l'image au format Base64 (dÃ©compressÃ©) avec en-tÃªte MIME
+    // Méthode pour obtenir l'image au format Base64 (décompressé) avec en-tête MIME
     this.getBase64 = function() {
         return "data:image/jpeg;base64,"+ modele.photoJoueur2;
     },
@@ -215,13 +231,13 @@ modele.Image2 = function (nomJoueur, imageData) {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// MÃ©thode pour capturer une image avec le tÃ©lÃ©phone encodÃ©e en Base64
+// Méthode pour capturer une image avec le téléphone encodée en Base64
 ////////////////////////////////////////////////////////////////////////////////
 modele.takePicture = function (successCB, errorCB) {
     navigator.camera.getPicture(
         function (imageData) {
-            // imageData contient l'image capturÃ©e au format Base64, sans en-tÃªte MIME
-            // On appelle successCB en lui transmettant une entitÃ© Image
+            // imageData contient l'image capturée au format Base64, sans en-tête MIME
+            // On appelle successCB en lui transmettant une entité Image
             successCB.call(this, new modele.Image(0,imageData));
             
             
@@ -238,14 +254,14 @@ modele.takePicture = function (successCB, errorCB) {
             correctOrientation: true,
             sourceType: navigator.camera.PictureSourceType.CAMERA,
             cameraDirection: navigator.camera.Direction.FRONT}
-        // qualitÃ© encodage 50%, format base64 (et JPEG par dÃ©faut)
+        // qualité encodage 50%, format base64 (et JPEG par défaut)
     );
 };
 modele.takePicture2 = function (successCB, errorCB) {
     navigator.camera.getPicture(
         function (imageData) {
-            // imageData contient l'image capturÃ©e au format Base64, sans en-tÃªte MIME
-            // On appelle successCB en lui transmettant une entitÃ© Image
+            // imageData contient l'image capturée au format Base64, sans en-tête MIME
+            // On appelle successCB en lui transmettant une entité Image
             successCB.call(this, new modele.Image2(0,imageData));
 
 
@@ -262,7 +278,7 @@ modele.takePicture2 = function (successCB, errorCB) {
             correctOrientation: true,
             sourceType: navigator.camera.PictureSourceType.CAMERA,
             cameraDirection: navigator.camera.Direction.FRONT}
-        // qualitÃ© encodage 50%, format base64 (et JPEG par dÃ©faut)
+        // qualité encodage 50%, format base64 (et JPEG par défaut)
     );
 };
 // Objet dao pour gérer la Persistance des parties dans le local storage.
