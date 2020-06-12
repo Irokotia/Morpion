@@ -214,7 +214,6 @@ modele.Image = function (id, imageData) {
         window.localStorage.setItem("image"+modele.Partie.nomJoueur,modele.photoJoueur);
 
     var joueur = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur));
-    console.log(joueur);
     if (joueur !== null) {
         var json_stringify_joueur = JSON.stringify({
             nbVictoiresJoueur: joueur.nbVictoiresJoueur,
@@ -224,7 +223,6 @@ modele.Image = function (id, imageData) {
         });
         window.localStorage.setItem(modele.Partie.nomJoueur, json_stringify_joueur);
     }
-    console.log(joueur);
 
 };
 modele.Image2 = function (id, imageData) {
@@ -239,8 +237,6 @@ modele.Image2 = function (id, imageData) {
 
         window.localStorage.setItem("image"+modele.Partie.nomJoueur2,modele.photoJoueur2);
     var joueur = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur2));
-
-    console.log(joueur);
     if (joueur !== null) {
         var json_stringify_joueur = JSON.stringify({
             nbVictoiresJoueur: joueur.nbVictoiresJoueur,
@@ -250,7 +246,6 @@ modele.Image2 = function (id, imageData) {
         });
         window.localStorage.setItem(modele.Partie.nomJoueur2, json_stringify_joueur);
     }
-    console.log(joueur);
 
 };
 

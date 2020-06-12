@@ -104,6 +104,7 @@ controleur.vueAccueil = {
     },
     // recherche image pour le premier input
     searchImageBD1(nomJoueur){
+        modele.Partie.nomJoueur = nomJoueur;
         var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
         // si on trouve le joueur alors on charge son image
         // il faut gérer le cas ou on appuie sur rejouer et que l'on change un des pseudos pour un pseudo non existant en BDD
@@ -113,12 +114,14 @@ controleur.vueAccueil = {
             modele.Partie.nomJoueur = nomJoueur;
             $("#cameraImageJoueur1").attr("src", joueur.imageJoueur);
         }else{
+            modele.Partie.nomJoueur = " ";
             $("#cameraImageJoueur1").attr("src","images/imageblanche.png");
         }
     }
     ,
     // recherche image pour le deuxième input
     searchImageBD2(nomJoueur){
+        modele.Partie.nomJoueur2 = nomJoueur;
         var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
         // si on trouve le joueur alors on charge son image
         // il faut gérer le cas ou on appuie sur rejouer et que l'on change un des pseudos pour un pseudo non existant en BDD
@@ -127,6 +130,7 @@ controleur.vueAccueil = {
             modele.Partie.nomJoueur2 = nomJoueur;
             $("#cameraImageJoueur2").attr("src", joueur.imageJoueur);
         }else{
+            modele.Partie.nomJoueur = " ";
             $("#cameraImageJoueur2").attr("src","images/imageblanche.png");
         }
     }
@@ -148,7 +152,7 @@ controleur.cameraController = {
             },
             // erreurCB : on affiche la page erreur avec un message appropriÃƒÂ©
             function () {
-                console.log('ça cassse !');
+                console.log('ça casse !');
                 plugins.toast.showShortCenter("Impossible de prendre une photo");
             },1
         );
@@ -165,7 +169,7 @@ controleur.cameraController = {
             },
             // erreurCB : on affiche la page erreur avec un message appropriÃƒÂ©
             function () {
-                console.log('ça cassse !');
+                console.log('ça casse !');
                 plugins.toast.showShortCenter("Impossible de prendre une photo");
             },1
         );
