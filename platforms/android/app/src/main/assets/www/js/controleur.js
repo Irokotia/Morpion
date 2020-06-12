@@ -74,6 +74,8 @@ controleur.vueAccueil = {
 
         if (nomJoueur1 === "" || nomJoueur2 === "") {
             alert("Entrez un nom de joueur svp");
+        }else if(nomJoueur1 === nomJoueur2){
+            alert("Renseigner deux noms de joueurs distincts");
         } else {
             modele.Partie.nomJoueur = nomJoueur1;
             modele.Partie.nomJoueur2 = nomJoueur2;
