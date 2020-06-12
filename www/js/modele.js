@@ -13,8 +13,6 @@ modele.Partie = function(nomJoueur) {
         photoJoueur = modele.Partie.photoJoueur2;
     }
 
-    console.log(photoJoueur);
-
 
 
     // si pas de joueur on en créer un
@@ -26,7 +24,6 @@ modele.Partie = function(nomJoueur) {
             imageJoueur : photoJoueur
         });
         window.localStorage.setItem(nomJoueur, json_stringify_joueur);
-        console.log( window.localStorage.getItem(nomJoueur));
     }
 };
 
@@ -205,29 +202,51 @@ modele.scoreDAO = {
 ////////////////////////////////////////////////////////////////////////////////
 // Classe Image
 ////////////////////////////////////////////////////////////////////////////////
-modele.Image = function (nomJoueur, imageData) {
+modele.Image = function (id, imageData) {
     // Attributs
-    this.id = 'image'+nomJoueur;
+    this.id = 'image'+id;
     modele.photoJoueur = imageData; // l'image Base64
-    //
+
     // Méthode pour obtenir l'image au format Base64 (décompressé) avec en-tête MIME
     this.getBase64 = function() {
         return "data:image/jpeg;base64,"+ modele.photoJoueur;
     },
-      
-    window.localStorage.setItem("image"+modele.Partie.nomJoueur,modele.photoJoueur);
+        window.localStorage.setItem("image"+modele.Partie.nomJoueur,modele.photoJoueur);
+
+    var joueur = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur));
+    if (joueur !== null) {
+        var json_stringify_joueur = JSON.stringify({
+            nbVictoiresJoueur: joueur.nbVictoiresJoueur,
+            nbDefaitesJoueur: joueur.nbDefaitesJoueur,
+            nbNulsJoueur: joueur.nbNulsJoueur,
+            imageJoueur: this.getBase64()
+        });
+        window.localStorage.setItem(modele.Partie.nomJoueur, json_stringify_joueur);
+    }
+
 };
-modele.Image2 = function (nomJoueur, imageData) {
+modele.Image2 = function (id, imageData) {
     // Attributs
-    this.id = 'image'+nomJoueur;
+    this.id = 'image'+id;
     modele.photoJoueur2 = imageData; // l'image Base64
-    //
+
     // Méthode pour obtenir l'image au format Base64 (décompressé) avec en-tête MIME
     this.getBase64 = function() {
         return "data:image/jpeg;base64,"+ modele.photoJoueur2;
     },
 
-    window.localStorage.setItem("image"+modele.Partie.nomJoueur2,modele.photoJoueur2);
+        window.localStorage.setItem("image"+modele.Partie.nomJoueur2,modele.photoJoueur2);
+    var joueur = JSON.parse(window.localStorage.getItem(modele.Partie.nomJoueur2));
+    if (joueur !== null) {
+        var json_stringify_joueur = JSON.stringify({
+            nbVictoiresJoueur: joueur.nbVictoiresJoueur,
+            nbDefaitesJoueur: joueur.nbDefaitesJoueur,
+            nbNulsJoueur: joueur.nbNulsJoueur,
+            imageJoueur: this.getBase64()
+        });
+        window.localStorage.setItem(modele.Partie.nomJoueur2, json_stringify_joueur);
+    }
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

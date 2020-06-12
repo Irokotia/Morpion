@@ -104,19 +104,30 @@ controleur.vueAccueil = {
     },
     // recherche image pour le premier input
     searchImageBD1(nomJoueur){
-        console.log(nomJoueur);
         var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
+        // si on trouve le joueur alors on charge son image
+        // il faut gérer le cas ou on appuie sur rejouer et que l'on change un des pseudos pour un pseudo non existant en BDD
         if(joueur !== null){
+            // on mets à jour le joueur qui veut jouer si il est enregistré en BDD
+            // cela permettra d'enregistrer la prise de photo
+            modele.Partie.nomJoueur = nomJoueur;
             $("#cameraImageJoueur1").attr("src", joueur.imageJoueur);
+        }else{
+            $("#cameraImageJoueur1").attr("src","images/imageblanche.png");
         }
     }
     ,
     // recherche image pour le deuxième input
     searchImageBD2(nomJoueur){
-        console.log(nomJoueur);
         var joueur = JSON.parse(window.localStorage.getItem(nomJoueur));
+        // si on trouve le joueur alors on charge son image
+        // il faut gérer le cas ou on appuie sur rejouer et que l'on change un des pseudos pour un pseudo non existant en BDD
         if(joueur !== null){
+            // on mets à jour le joueur qui veut jouer si il est enregistré en BDD
+            modele.Partie.nomJoueur2 = nomJoueur;
             $("#cameraImageJoueur2").attr("src", joueur.imageJoueur);
+        }else{
+            $("#cameraImageJoueur2").attr("src","images/imageblanche.png");
         }
     }
 };
